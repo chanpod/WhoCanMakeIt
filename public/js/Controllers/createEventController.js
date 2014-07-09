@@ -1,4 +1,8 @@
-angular.module("Imn.controller", [])
+angular.module("Imn.controllers", [])
     .controller("createEventController", ["$scope", function($scope){
-        $scope.helloWorld = "Hello World";
+        $scope.event = {};
+
+        $scope.submitEvent = function(){
+            console.log($scope.event);
+        }
     }]);

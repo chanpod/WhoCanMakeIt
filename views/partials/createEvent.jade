@@ -4,9 +4,23 @@ script#createEvent(type="text/ng-template")
             h1.
                 Create an Event
 
-    div(class = "container-fluid")
-        div(class = "well").
-            From Scope: {{helloWorld}}
+
+    div(class = "well")
+        div.container
+            form(role = "form")
+                div(class = "form-group has-success")
+                    label(for ="eventName") Event Name
+                    input(type = "text", class = "form-control text", id = "eventName", ng-model = "event.name", placeholder ="Enter the name of the event", data-content="Required")
+                div(class = "form-group")
+                    label(for ="date") Date - <i>Click down arrow for date selection </i>
+                    input(type = "date", class = "form-control", id = "date", ng-model = "event.date")
+                div(class = "form-group")
+                    label(for = "time") Time
+                    input(type = "time", class = "form-control", id = "time", ng-model = "event.time")
+                div(class = "form-group")
+                    label(for = "location") Location
+                    input(type = "text", class = "form-control", id = "location", ng-model="event.location")
+                button(type = "button", class = "btn btn-primary", ng-click = "submitEvent()") Submit
 
 
 
