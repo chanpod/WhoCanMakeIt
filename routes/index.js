@@ -3,6 +3,8 @@
  * GET home page.
  */
 
+var title = "Imn";
+
 exports.index = function(req, res){
   res.render('index');
 };
