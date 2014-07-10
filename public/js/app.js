@@ -18,7 +18,7 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'createEvent',
       controller: 'createEventController'
     }).
-      when('/viewEvent', {
+      when('/viewEvent/:eventID', {
           templateUrl: 'viewEvent',
           controller: 'MyCtrl2'
       }).

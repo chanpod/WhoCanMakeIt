@@ -37,6 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // serve index and view partials
 app.get('/', routes.index);
+app.get('/viewEvent/:eventID', routes.viewEvent);
+app.get('/createEvent/', routes.createEvent);
 app.get('/partials/:name', routes.partials);
 
 // JSON API
