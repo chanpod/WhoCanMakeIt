@@ -1,5 +1,5 @@
 angular.module("Imn.controllers", ['Imn.services'])
-    .controller("createEventController", ["$scope", function($scope, $location, eventService){
+    .controller("createEventController", ["$scope", 'eventService', function($scope, $location, eventService){
         $scope.event = {};
 
         $scope.submitEvent = function(){

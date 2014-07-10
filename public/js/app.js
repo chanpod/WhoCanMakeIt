@@ -6,7 +6,8 @@ angular.module('Imn', [
   'Imn.controllers',
   'Imn.filters',
   'Imn.services',
-  'Imn.directives'
+  'Imn.directives',
+  'eventService'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
