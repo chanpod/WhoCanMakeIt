@@ -1,13 +1,10 @@
 'use strict';
 
 /* Services */
+var service = angular.module("Imn.services", ["ngResource"]);
 
-
-// Demonstrate how to register services
-// In this case it is a simple value service.
-angular.module('Imn.services', ['ngResource']).
-  factory('eventService', function($resource){
-        return $resource('createEvent', {}, {
-            query: {method:'GET', params: {}}
-        })
+service.factory('EventService', function($resource){
+        return $resource('viewEvent/:eventID',
+            {eventID:"@eventID"}
+        );
     });

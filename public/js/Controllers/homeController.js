@@ -1,3 +1,7 @@
-/**
- * Created by cphilpot on 7/9/2014.
- */
+var controllers = angular.module("Imn.controllers", []);
+
+controllers.controller("homeController", ["$scope", function($scope){
+
+        $scope.welcomeMessage = "Welcome to Imn"
+
+    }]);

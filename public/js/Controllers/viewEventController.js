@@ -1,3 +1,7 @@
-/**
- * Created by cphilpot on 7/9/2014.
- */
+var controllers = angular.module("Imn.controllers", []);
+
+controllers.controller("viewEventController", ["$scope", function($scope){
+
+        $scope.welcomeMessage = "View Events"
+
+    }]);

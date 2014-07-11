@@ -1,14 +1,38 @@
-'use strict';
+'use Strict'
+angular.module("Imn.controllers", ['Imn.services'])
+    .controller("createEventController", ["$scope", 'EventService', function($scope, $location, EventService){
+        $scope.event = {};
 
-/* Controllers */
+        $scope.submitEvent = function(){
+            console.log($scope.event);
+            var events = EventService($scope.event);
 
-angular.module('Imn.controllers', []).
+             events.$save(function(p, resp){
+                if(!p.error){
+                    console.log("Success");
+                }
+                else{
+                    console.log("Error: " + resp);
+                }
+            })
 
-  controller('MyCtrl1', function ($scope) {
-    // write Ctrl here
+        }
+    }])
+    .controller("homeController", ["$scope", function($scope){
 
-  }).
-  controller('MyCtrl2', function ($scope) {
-    // write Ctrl here
+        $scope.welcomeMessage = "Welcome to Imn"
 
-  });
+    }])
+    .controller("viewEventController", ["$scope", 'EventService', function($scope, EventService, $request){
+
+        $scope.events = EventService.query();
+        console.log($scope.events);
+
+    }]);
+
+
+
+
+
+
+

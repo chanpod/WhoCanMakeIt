@@ -1,5 +1,6 @@
-angular.module("Imn.controllers", ['Imn.services'])
-    .controller("createEventController", ["$scope", 'eventService', function($scope, $location, eventService){
+var controllers = angular.module("Imn.controllers", ['Imn.services']);
+
+controllers.controller("createEventController", ["$scope", 'eventService', function($scope, $location, eventService){
         $scope.event = {};
 
         $scope.submitEvent = function(){
@@ -14,4 +15,9 @@ angular.module("Imn.controllers", ['Imn.services'])
                 }
             })
         }
-    }]);
+    }])
+    .controller("viewEventController", ["$scope", function($scope){
+
+        $scope.welcomeMessage = "View Events"
+
+    }]);;

@@ -6,14 +6,13 @@ angular.module('Imn', [
   'Imn.controllers',
   'Imn.filters',
   'Imn.services',
-  'Imn.directives',
-  'eventService'
+  'Imn.directives'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/', {
       templateUrl: 'home',
-      controller: 'MyCtrl1'
+      controller: 'homeController'
     }).
     when('/createEvent', {
       templateUrl: 'createEvent',
@@ -21,7 +20,11 @@ config(function ($routeProvider, $locationProvider) {
     }).
       when('/viewEvent/:eventID', {
           templateUrl: 'viewEvent',
-          controller: 'MyCtrl2'
+          controller: 'viewEventController'
+      }).
+      when('/viewEvent', {
+          templateUrl: 'viewEvent',
+          controller: 'viewEventController'
       }).
     otherwise({
       redirectTo: '/'

@@ -6,8 +6,11 @@ var event = db.model('events', eventSchema);
 
 exports.viewEvent = function(req, res){
 
-    event.find({}, 'question', function(error, polls) {
-        res.json(polls);
+
+    console.log(req.params.eventID);
+    event.find({"eventID" : req.params.eventID}, function(error, events) {
+        console.log(events);
+        res.send(events);
     });
 };
 
@@ -15,10 +18,10 @@ exports.createEvent = function(req, res){
 
     var reqBody = req.body;
 
-    var pollObj = {eventName: reqBody.eventName, eventDate: reqBody.eventDate,
+    var eventObj = {eventName: reqBody.eventName, eventDate: reqBody.eventDate,
                     eventTime : reqBody.eventTime, eventLocation: reqBody.eventLocation};
-    var poll = new event(pollObj);
-    poll.save(function(err, doc) {
+    var newEvent = new event(eventObj);
+    newEvent.save(function(err, doc) {
         if(err || !doc) {
             throw 'Error';
         } else {
