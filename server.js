@@ -36,9 +36,11 @@ var router = express.Router();
 
 router.get('/api/viewEvent', routes.viewEvent);
 router.get('/api/viewEvent/:eventID', routes.viewEvent);
+router.get('/api/createEvent', routes.createEvent);
 router.get('/', routes.index);
 router.get('/viewEvent', routes.index);
 router.get('/viewEvent/:eventID', routes.index);
+router.get('/createEvent', routes.index);
 
 app.use('/', router);
 

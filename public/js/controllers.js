@@ -1,20 +1,15 @@
 'use Strict'
 angular.module("Imn.controllers", ['Imn.services'])
-    .controller("createEventController", ["$scope", 'EventService', function($scope, EventService){
+    .controller("createEventController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
         $scope.event = {};
 
         $scope.submitEvent = function(){
             console.log($scope.event);
-            var events = EventService($scope.event);
+            var events = EventService.$update();
 
-            EventService($scope.event).$save(function(p, resp){
-                if(!p.error){
-                    console.log("Success");
-                }
-                else{
-                    console.log("Error: " + resp);
-                }
-            })
+            console.log(events);
+
+            //events.update();
 
         }
     }])
@@ -23,11 +18,13 @@ angular.module("Imn.controllers", ['Imn.services'])
         $scope.welcomeMessage = "Welcome to Imn"
 
     }])
-    .controller("viewEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
+    .controller("viewAllEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
 
         var path = $location.path().split('/');
         var pathSize = path.length;
+
         $scope.events = [];
+        $scope.welcomeMessage = "Find an event";
 
         if(pathSize === 2){
             console.log("No event ID");
@@ -38,10 +35,24 @@ angular.module("Imn.controllers", ['Imn.services'])
         else{
             console.log("Event ID specified");
 
-            EventService.getSingleEvent({"eventID":"1234"}, function(results){
+            EventService.getSingleEvent({"eventID":path[pathSize - 1]}, function(results){
                 $scope.events = results;
             });
         }
+    }]).controller("viewEventController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
+
+        var path = $location.path().split('/');
+        var pathSize = path.length;
+        $scope.event = {};
+
+
+        console.log("Working");
+
+        EventService.getSingleEvent({"eventID":path[pathSize - 1]}, function(results){
+            $scope.event = results[0];
+            $scope.welcomeMessage = $scope.event.eventName;
+        });
+
     }]);
 
 

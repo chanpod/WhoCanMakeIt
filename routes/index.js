@@ -8,6 +8,7 @@ exports.viewEvent = function(req, res){
 
 
     console.log(req.params.eventID);
+
     if(req.params.eventID) {
         event.find({"eventID": req.params.eventID}, function (error, events) {
             console.log(events);
@@ -25,15 +26,18 @@ exports.viewEvent = function(req, res){
 exports.createEvent = function(req, res){
 
     var reqBody = req.body;
+    console.log("Working");
 
-    var eventObj = {eventName: reqBody.eventName, eventDate: reqBody.eventDate,
+   /* var eventObj = {eventName: reqBody.eventName, eventDate: reqBody.eventDate,
                     eventTime : reqBody.eventTime, eventLocation: reqBody.eventLocation};
-    var newEvent = new event(eventObj);
+    */
+
+    var newEvent = new event(eventSchema);
     newEvent.save(function(err, doc) {
         if(err || !doc) {
             throw 'Error';
         } else {
-            res.json(doc);
+            res.send(doc);
         }
     });
 };

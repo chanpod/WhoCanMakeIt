@@ -1,0 +1,29 @@
+script#viewAllEvents(type="text/ng-template")
+    div(class = "jumbotron")
+        div(class = "container")
+            h1.
+                {{welcomeMessage}}
+    div().container
+        b
+            | Search for Events
+        input(ng-model="searchEvents", placeholder ="Find events...")
+
+        table(class = "table table-striped")
+            tr
+                th() Event
+                th() Date
+                th() Location
+                th() Time
+            tr(ng-repeat = "event in events | filter:searchEvents")
+                td()
+                    a(href ="viewEvent/{{event.eventID}}")
+                        {{event.eventName}}
+                td()
+                    {{event.eventDate}}
+                td()
+                    {{event.eventLocation}}
+                td()
+                    {{event.eventTime}}
+
+
+

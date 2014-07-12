@@ -12,6 +12,12 @@ service.factory('EventService', function($resource){
                 method: "GET",
                 isArray: true
                }
+            },
+            {
+                update: {
+                    method : "POST",
+                    url : "api/createEvent"
+                }
             }
         );
     });
