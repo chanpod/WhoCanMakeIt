@@ -34,8 +34,11 @@ app.use(methodOverride());
 var router = express.Router();
 
 
-router.get('/viewEvent', routes.viewEvent);
+router.get('/api/viewEvent', routes.viewEvent);
+router.get('/api/viewEvent/:eventID', routes.viewEvent);
 router.get('/', routes.index);
+router.get('/viewEvent', routes.index);
+router.get('/viewEvent/:eventID', routes.index);
 
 app.use('/', router);
 

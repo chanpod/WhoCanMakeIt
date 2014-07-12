@@ -8,10 +8,18 @@ exports.viewEvent = function(req, res){
 
 
     console.log(req.params.eventID);
-    event.find({"eventID" : req.params.eventID}, function(error, events) {
-        console.log(events);
-        res.send(events);
-    });
+    if(req.params.eventID) {
+        event.find({"eventID": req.params.eventID}, function (error, events) {
+            console.log(events);
+            res.send(events);
+        });
+    }
+    else{
+        event.find({}, function (error, events) {
+            console.log(events);
+            res.send(events);
+        })
+    }
 };
 
 exports.createEvent = function(req, res){

@@ -3,13 +3,13 @@ script#viewEvent(type="text/ng-template")
         div(class = "container")
             h1.
                 {{welcomeMessage}}
-    div.container List of Events
+    div(ng-model = "events").container List of Events
         a(href='/viewEvent/1234') View Event 1234
 
-        table(ng-repeat = "events in event").table
-            tr
+        table().table-striped
+            tr(ng-repeat = "event in events")
                 td()
-                    event
+                    {{event.eventName}}
 
 
 

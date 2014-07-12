@@ -20,11 +20,11 @@ config(function ($routeProvider, $locationProvider) {
     }).
       when('/viewEvent/:eventID', {
           templateUrl: 'viewEvent',
-          controller: 'viewEventController'
+          controller: 'viewEventsController'
       }).
       when('/viewEvent', {
           templateUrl: 'viewEvent',
-          controller: 'viewEventController'
+          controller: 'viewEventsController'
       }).
     otherwise({
       redirectTo: '/'
