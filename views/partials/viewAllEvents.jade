@@ -11,13 +11,17 @@ script#viewAllEvents(type="text/ng-template")
         table(class = "table table-striped")
             tr
                 th() Event
+                th() Responses
                 th() Date
                 th() Location
                 th() Time
             tr(ng-repeat = "event in events | filter:searchEvents")
                 td()
-                    a(href ="viewEvent/{{event.eventID}}")
+                    a(href ="viewEvent/{{event._id}}")
                         {{event.eventName}}
+
+                td()
+                    span(class = "label label-info") {{event.attendees.length}}
                 td()
                     {{event.eventDate}}
                 td()

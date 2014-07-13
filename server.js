@@ -21,10 +21,8 @@ var port = process.env.PORT || 8000;
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(methodOverride());
+app.use(bodyParser());
+
 
 
 /**
@@ -36,7 +34,7 @@ var router = express.Router();
 
 router.get('/api/viewEvent', routes.viewEvent);
 router.get('/api/viewEvent/:eventID', routes.viewEvent);
-router.get('/api/createEvent', routes.createEvent);
+router.post('/api/createEvent', routes.createEvent);
 router.get('/', routes.index);
 router.get('/viewEvent', routes.index);
 router.get('/viewEvent/:eventID', routes.index);
@@ -45,7 +43,7 @@ router.get('/createEvent', routes.index);
 app.use('/', router);
 
 
-app.post('/createEvent', routes.createEvent);
+
 
 /**
  * Start Server

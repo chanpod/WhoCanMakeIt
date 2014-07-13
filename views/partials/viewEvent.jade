@@ -3,15 +3,50 @@ script#viewEvent(type="text/ng-template")
         div(class = "container")
             h1
                 {{welcomeMessage}}
+            button(ng-click = "iminResponse = !iminResponse", class = "btn btn-primary", data-toggle = "modal", data-target = "#ImInQuestionair") Are you coming?
+            div(id = "ImInQuestionair", class = "modal fade", tabindex = "-1", role="dialog", aria-hidden="true")
+                div(class = "modal-dialog")
+                    div(class = "modal-content")
+                        div(class = "modal-header")
+                            | Who are you?
+                            br
+                            input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
+                        div(class = "btn-group")
+                            button(type = "button", class = "btn btn-default") ImIn
+                            button(type = "button", class = "btn btn-default") Maybe
+                            button(type = "button", class = "btn btn-default") Nope
     div(class = "well")
         div.row
-            div(class = "col-md-4 col-sm-6")
-                span
-                    | Location
-            div(class = "col-md-4 col-sm-6")
-                span
-                    | Date
-            div(class = "col-md-4 col-sm-6")
-                span
-                    | Time
+            div.container-fluid
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-info")
+                        div(class = "panel-heading")
+                            | Event Name
+                        div(class = "panel-body")
+                            {{event.eventName}}
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-info")
+                        div(class = "panel-heading")
+                            | Event Date
+                        div(class = "panel-body")
+                            {{event.eventDate}}
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-info")
+                        div(class = "panel-heading")
+                            | Event Time
+                        div(class = "panel-body")
+                            {{event.eventTime}}
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-info")
+                        div(class = "panel-heading")
+                            | Who's Coming
+                        div(class = "panel-body")
+                            input(ng-model = "searchAttendees")
+                            table(class = "table table-stripped")
+                                tr
+                                    th()
+                                        | Name
+                                tr(ng-repeat="attendee in event.attendees | filter:searchAttendees")
+                                    td
+                                        {{attendee.userName}}
 

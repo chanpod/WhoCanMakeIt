@@ -14,10 +14,13 @@ service.factory('EventService', function($resource){
                }
             },
             {
-                update: {
-                    method : "POST",
-                    url : "api/createEvent"
+                'update': {
+                    url : "api/createEvent",
+                    method : "POST"
                 }
             }
         );
-    });
+    }).factory('CreateEventService', function($resource){
+    console.log("working in service");
+    return $resource('api/createEvent');
+});

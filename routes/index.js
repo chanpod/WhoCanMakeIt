@@ -10,7 +10,7 @@ exports.viewEvent = function(req, res){
     console.log(req.params.eventID);
 
     if(req.params.eventID) {
-        event.find({"eventID": req.params.eventID}, function (error, events) {
+        event.find({"_id": req.params.eventID}, function (error, events) {
             console.log(events);
             res.send(events);
         });
@@ -26,13 +26,24 @@ exports.viewEvent = function(req, res){
 exports.createEvent = function(req, res){
 
     var reqBody = req.body;
-    console.log("Working");
+    console.log(req.params.newEvent);
+    console.log("Request Body: " + reqBody);
+    console.log(reqBody);
 
-   /* var eventObj = {eventName: reqBody.eventName, eventDate: reqBody.eventDate,
-                    eventTime : reqBody.eventTime, eventLocation: reqBody.eventLocation};
-    */
+    var testEvent = {
+        eventID: "1",
+        eventName: "Test",
+        eventDate: "12/12/12",
+        eventTime : "1:00pm",
+        eventLocation: "Auburn",
+        attendees: [{
+            userName: "Chauncey",
+            attending: "yes"
+        }]
+    };
 
-    var newEvent = new event(eventSchema);
+
+    var newEvent = new event(reqBody);
     newEvent.save(function(err, doc) {
         if(err || !doc) {
             throw 'Error';

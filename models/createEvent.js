@@ -9,6 +9,14 @@ exports.eventSchema = new mongoose.Schema(
                                     attendees: [{
                                         userName: String,
                                         attending: String
+                                    }],
+                                    maybe: [{
+                                        userName: String,
+                                        attending: String
+                                    }],
+                                    nopes: [{
+                                        userName: String,
+                                        attending: String
                                     }]
                                 });
 
