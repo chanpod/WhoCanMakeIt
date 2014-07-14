@@ -6,7 +6,6 @@ var event = db.model('events', eventSchema);
 
 exports.viewEvent = function(req, res){
 
-
     console.log(req.params.eventID);
 
     if(req.params.eventID) {
@@ -25,9 +24,18 @@ exports.viewEvent = function(req, res){
 
 exports.saveEvent = function(req, res){
     var reqBody = req.body;
+    var data = reqBody.data;
 
-    var newEvent = event(reqBody);
-    newEvent.save();
+
+    eventSchema = data;
+    console.log(eventSchema);
+
+    event.update({_id : data._id}, data, {multi:false}, function(result){
+        console.log(result);
+    }, function(error){
+        console.log(error);
+    });
+
 
 }
 

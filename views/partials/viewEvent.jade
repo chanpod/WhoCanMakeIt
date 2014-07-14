@@ -8,21 +8,24 @@ script#viewEvent(type="text/ng-template")
                 div(class = "modal-dialog")
                     div(class = "modal-content")
                         div(class = "modal-header")
-                            button(type="button", class="close", data-dismiss="modal")
+                            button(type="button", class="close", data-dismiss="modal", ng-click = "nevermind()")
                                 span(aria-hidden="true") &times
                                 span(class = "sr-only") Close
-                            | Who are you?
+
                         div(class = "modal-body")
                             div(class = "modal-body")
-
-                                input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
-                            div(class = "btn-group")
-                                button(type = "button", class = "btn btn-default", ng-click = "ImIn()") ImIn
-                                button(type = "button", class = "btn btn-default", ng-click = "maybe()") Maybe
-                                button(type = "button", class = "btn btn-default", ng-click = "nope()") Nope
+                                div.container
+                                    | Who are you?
+                                    input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
+                                br
+                                div.container
+                                    div(class = "btn-group")
+                                        button(type = "button", class = "btn btn-default", ng-click = "ImIn()") ImIn
+                                        button(type = "button", class = "btn btn-default", ng-click = "maybe()") Maybe
+                                        button(type = "button", class = "btn btn-default", ng-click = "nopes()") Nope
                         div(class = "modal-footer")
                             button(type = "button", class = "btn btn-primary", data-dismiss="modal", ng-click = "addAttendee()") ImIn
-                            button(type = "butotn", class = "btn btn-warning", data-dismiss="modal") Nevermind
+                            button(type = "butotn", class = "btn btn-warning", data-dismiss="modal", ng-click = "nevermind()") Nevermind
     div(class = "well")
         div.row
             div.container-fluid
@@ -52,7 +55,7 @@ script#viewEvent(type="text/ng-template")
                             span(class = "label label-info") {{event.attendees.length}}
                             span(class = "label label-warning") {{event.maybe.length}}
                             span(class = "label label-danger") {{event.nopes.length}}
-                div(class = "col-md-12 col-sm-12")
+                div(class = "col-md-4 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")
                             | Who's Coming?
@@ -63,6 +66,32 @@ script#viewEvent(type="text/ng-template")
                                     th()
                                         | Name
                                 tr(ng-repeat="attendee in event.attendees | filter:searchAttendees")
+                                    td
+                                        {{attendee.userName}}
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-warning")
+                        div(class = "panel-heading")
+                            | Who Might Be Coming?
+                        div(class = "panel-body")
+                            input(ng-model = "searchMaybe")
+                            table(class = "table table-stripped")
+                                tr
+                                    th()
+                                        | Name
+                                tr(ng-repeat="attendee in event.maybe | filter:searchMaybe")
+                                    td
+                                        {{attendee.userName}}
+                div(class = "col-md-4 col-sm-6")
+                    div(class = "panel panel-danger")
+                        div(class = "panel-heading")
+                            | Who's Not Coming
+                        div(class = "panel-body")
+                            input(ng-model = "searchNopes")
+                            table(class = "table table-stripped")
+                                tr
+                                    th()
+                                        | Name
+                                tr(ng-repeat="attendee in event.nopes | filter:searchNopes")
                                     td
                                         {{attendee.userName}}
 

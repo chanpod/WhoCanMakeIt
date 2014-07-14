@@ -17,10 +17,11 @@ service.factory('EventService', function($resource){
     }).factory('CreateEventService', function($resource){
          return $resource('api/createEvent');
     }).factory('SaveEventService', function($resource){
-         return $resource('api/saveEvent',
+         return $resource('api/saveEvent/:eventID',
+             {eventID:"@eventID"},
              {
                  'update' : {
-                     url: "api/saveEvent",
+                     url: "api/saveEvent/:eventID",
                      method :"PUT"
                  }
              });
