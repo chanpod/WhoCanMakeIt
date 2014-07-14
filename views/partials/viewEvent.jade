@@ -3,7 +3,7 @@ script#viewEvent(type="text/ng-template")
         div(class = "container")
             h1
                 {{welcomeMessage}}
-            button(ng-click = "iminResponse = !iminResponse", class = "btn btn-primary", data-toggle = "modal", data-target = "#ImInQuestionair") Are you coming?
+            button(ng-click = "iminResponse = !iminResponse", class = "btn btn-primary btn-lg", data-toggle = "modal", data-target = "#ImInQuestionair") Are you coming?
             div(id = "ImInQuestionair", class = "modal fade", tabindex = "-1", role="dialog", aria-hidden="true")
                 div(class = "modal-dialog")
                     div(class = "modal-content")
@@ -15,46 +15,53 @@ script#viewEvent(type="text/ng-template")
                         div(class = "modal-body")
                             div(class = "modal-body")
                                 div.container
-                                    | Who are you?
-                                    input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
+                                    | Who are you? &nbsp
+                                    input(id = "enterName", type = "input", ng-model = "newAttendee", placeholder="Enter your name", data-toggle = "popover", data-content = "Please enter your name. Can't be blank!")
                                 br
                                 div.container
                                     div(class = "btn-group")
-                                        button(type = "button", class = "btn btn-default", ng-click = "ImIn()") ImIn
-                                        button(type = "button", class = "btn btn-default", ng-click = "maybe()") Maybe
-                                        button(type = "button", class = "btn btn-default", ng-click = "nopes()") Nope
+                                        button(type = "button", class = "btn btn-primary", ng-click = "ImIn()") ImIn
+                                        button(type = "button", class = "btn btn-warning", ng-click = "maybe()") Maybe
+                                        button(type = "button", class = "btn btn-danger", ng-click = "nopes()") Nope
                         div(class = "modal-footer")
-                            button(type = "button", class = "btn btn-primary", data-dismiss="modal", ng-click = "addAttendee()") ImIn
-                            button(type = "butotn", class = "btn btn-warning", data-dismiss="modal", ng-click = "nevermind()") Nevermind
-    div(class = "well")
-        div.row
-            div.container-fluid
-                div(class = "col-md-3 col-sm-6")
-                    div(class = "panel panel-info")
-                        div(class = "panel-heading")
-                            | Event Name
-                        div(class = "panel-body")
+                            button(id = "addAttendee", type = "button", class = "btn btn-primary", ng-click = "addAttendee()") Save
+                            button(type = "button", class = "btn btn-warning", data-dismiss="modal", ng-click = "nevermind()") Nevermind
+
+            br
+            br
+
+            div(class = "col-md-12 col-sm-12")
+                div(class = "panel panel-info")
+                    div(class = "panel-heading")
+                        | Event Details
+                    div(class = "panel-body")
+                        p
+                            b
+                                | Name: &nbsp
                             {{event.eventName}}
-                div(class = "col-md-3 col-sm-6")
-                    div(class = "panel panel-info")
-                        div(class = "panel-heading")
-                            | Event Date
-                        div(class = "panel-body")
+                        p
+                            b
+                                | Location: &nbsp
+                            {{event.eventLocation}}
+                        p
+                            b
+                                | Date: &nbsp
                             {{event.eventDate}}
-                div(class = "col-md-3 col-sm-6")
-                    div(class = "panel panel-info")
-                        div(class = "panel-heading")
-                            | Event Time
-                        div(class = "panel-body")
+                        p
+                            b
+                                | Time: &nbsp
                             {{event.eventTime}}
-                div(class = "col-md-3 col-sm-6")
-                    div(class = "panel panel-info")
-                        div(class = "panel-heading")
-                            | Overview
-                        div(class = "panel-body")
+                        p
+                            b
+                                | Overview
                             span(class = "label label-info") {{event.attendees.length}}
                             span(class = "label label-warning") {{event.maybe.length}}
                             span(class = "label label-danger") {{event.nopes.length}}
+
+    div(class = "well")
+        div.row
+            div.container-fluid
+
                 div(class = "col-md-4 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")

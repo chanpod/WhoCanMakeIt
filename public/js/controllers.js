@@ -26,9 +26,13 @@ angular.module("Imn.controllers", ['Imn.services'])
             };
         }
     }])
-    .controller("homeController", ["$scope", function($scope){
+    .controller("homeController", ["$scope", '$location', function($scope, $location){
 
         $scope.welcomeMessage = "Welcome to Imn"
+
+        $scope.createEvent = function(){
+            $location.path("/createEvent");
+        }
 
     }])
     .controller("viewAllEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
@@ -58,6 +62,7 @@ angular.module("Imn.controllers", ['Imn.services'])
 
         $scope.newAttendee = "";
         $scope.newAttendeeToAdd = {userName: ""};
+        $('addAttendee').prop('disabled', true);
 
 
         var eventService = EventService.getSingleEvent({"eventID":path[pathSize - 1]}, function(result){
@@ -71,6 +76,7 @@ angular.module("Imn.controllers", ['Imn.services'])
             $scope.event._id = eventService[0]._id;
             $scope.event.eventDate = eventService[0].eventDate;
             $scope.event.eventTime = eventService[0].eventTime;
+            $scope.event.eventLocation = eventService[0].eventLocation
 
             $scope.event.attendees = eventService[0].attendees;
             $scope.event.maybe = eventService[0].maybe;
@@ -82,36 +88,53 @@ angular.module("Imn.controllers", ['Imn.services'])
 
         $scope.addAttendee = function(){
 
-           var saveEvent = new SaveEventService();
-            console.log(saveEvent);
-            SaveEventService.update({eventID: $scope.event._id}, {data: $scope.event});
+           if($scope.newAttendee.length > 0 && ($scope.addedToYes === true ||
+                                                $scope.addedToMaybe === true ||
+                                                $scope.addedToNopes=== true)){
+
+               var saveEvent = new SaveEventService();
+               console.log(saveEvent);
+               SaveEventService.update({eventID: $scope.event._id}, {data: $scope.event});
+               $('#ImInQuestionair').modal('hide');
+               $('#enterName').popover('hide');
+           }
+           else{
+               $('#enterName').popover('show');
+           }
+
         };
 
         $scope.ImIn = function(){
 
             $scope.newAttendeeToAdd.userName = $scope.newAttendee;
 
-            if($scope.addedToYes === true){
+            if($scope.newAttendee.length > 0) {
 
+                if ($scope.addedToYes === true) {
+
+                }
+                else {
+                    if ($scope.addedToMaybe === true) {
+
+                        $scope.addedToMaybe = false
+                        $scope.event.maybe.pop();
+                    }
+                    else if ($scope.addedToNopes === true) {
+
+                        $scope.addedToNopes = false
+                        $scope.event.nopes.pop();
+                    }
+
+                    $scope.event.attendees.push($scope.newAttendeeToAdd)
+                }
+
+                $scope.addedToYes = true;
+
+                console.log("Attendees" + $scope.event.attendees);
             }
             else{
-                if($scope.addedToMaybe === true){
-
-                    $scope.addedToMaybe = false
-                    $scope.event.maybe.pop();
-                }
-                else if($scope.addedToNopes === true){
-
-                    $scope.addedToNopes = false
-                    $scope.event.nopes.pop();
-                }
-
-                $scope.event.attendees.push($scope.newAttendeeToAdd)
+                $('#enterName').popover('show');
             }
-
-            $scope.addedToYes = true;
-
-            console.log("Attendees" + $scope.event.attendees);
 
         };
 
@@ -119,50 +142,62 @@ angular.module("Imn.controllers", ['Imn.services'])
 
             $scope.newAttendeeToAdd.userName = $scope.newAttendee;
 
-            if($scope.addedToMaybe === true){
+            if($scope.newAttendee.length > 0) {
 
+                if($scope.addedToMaybe === true){
+
+                }
+                else{
+                    if($scope.addedToYes === true){
+
+                        $scope.addedToYes = false
+                        $scope.event.attendees.pop();
+                    }
+                    else if($scope.addedToNopes === true){
+
+                        $scope.addedToNopes = false
+                        $scope.event.nopes.pop();
+                    }
+
+                    $scope.event.maybe.push($scope.newAttendeeToAdd)
+                }
+
+                $scope.addedToMaybe = true;
             }
             else{
-                if($scope.addedToYes === true){
-
-                    $scope.addedToYes = false
-                    $scope.event.attendees.pop();
-                }
-                else if($scope.addedToNopes === true){
-
-                    $scope.addedToNopes = false
-                    $scope.event.nopes.pop();
-                }
-
-                $scope.event.maybe.push($scope.newAttendeeToAdd)
+                $('#enterName').popover('show');
             }
-
-            $scope.addedToMaybe = true;
         }
 
         $scope.nopes = function(){
 
             $scope.newAttendeeToAdd.userName = $scope.newAttendee;
 
-            if($scope.addedToNopes === true){
-                //Do nothing
+            if($scope.newAttendee.length > 0) {
+
+                if ($scope.addedToNopes === true) {
+                    //Do nothing
+                }
+                else {
+                    if ($scope.addedToYes === true) {
+
+                        $scope.addedToYes = false;
+                        $scope.event.attendees.pop();
+                    }
+                    else if ($scope.addedToMaybe === true) {
+
+                        $scope.addedToMaybe = false
+                        $scope.event.maybe.pop();
+                    }
+
+                    $scope.event.nopes.push($scope.newAttendeeToAdd)
+                }
+
+                $scope.addedToNopes = true;
             }
             else{
-                if($scope.addedToYes === true){
-
-                    $scope.addedToYes = false;
-                    $scope.event.attendees.pop();
-                }
-                else if($scope.addedToMaybe === true){
-
-                    $scope.addedToMaybe = false
-                    $scope.event.maybe.pop();
-                }
-
-                $scope.event.nopes.push($scope.newAttendeeToAdd)
+                $('#enterName').popover('show');
             }
-
-            $scope.addedToNopes = true;
         }
 
         $scope.nevermind = function(){
