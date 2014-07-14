@@ -28,7 +28,7 @@ angular.module("Imn.controllers", ['Imn.services'])
     }])
     .controller("homeController", ["$scope", '$location', function($scope, $location){
 
-        $scope.welcomeMessage = "Welcome to Imn"
+        $scope.welcomeMessage = "Welcome to ImIn"
 
         $scope.createEvent = function(){
             $location.path("/createEvent");
