@@ -7,16 +7,13 @@ exports.eventSchema = new mongoose.Schema(
                                     eventTime : String,
                                     eventLocation: String,
                                     attendees: [{
-                                        userName: String,
-                                        attending: String
+                                        userName: String
                                     }],
                                     maybe: [{
-                                        userName: String,
-                                        attending: String
+                                        userName: String
                                     }],
                                     nopes: [{
-                                        userName: String,
-                                        attending: String
+                                        userName: String
                                     }]
                                 });
 

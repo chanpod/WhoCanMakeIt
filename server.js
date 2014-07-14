@@ -35,6 +35,7 @@ var router = express.Router();
 router.get('/api/viewEvent', routes.viewEvent);
 router.get('/api/viewEvent/:eventID', routes.viewEvent);
 router.post('/api/createEvent', routes.createEvent);
+router.post('/api/saveEvent/', routes.saveEvent);
 router.get('/', routes.index);
 router.get('/viewEvent', routes.index);
 router.get('/viewEvent/:eventID', routes.index);

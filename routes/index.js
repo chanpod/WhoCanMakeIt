@@ -23,6 +23,14 @@ exports.viewEvent = function(req, res){
     }
 };
 
+exports.saveEvent = function(req, res){
+    var reqBody = req.body;
+
+    var newEvent = event(reqBody);
+    newEvent.save();
+
+}
+
 exports.createEvent = function(req, res){
 
     var reqBody = req.body;

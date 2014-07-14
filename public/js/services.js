@@ -12,15 +12,16 @@ service.factory('EventService', function($resource){
                 method: "GET",
                 isArray: true
                }
-            },
-            {
-                'update': {
-                    url : "api/createEvent",
-                    method : "POST"
-                }
             }
         );
     }).factory('CreateEventService', function($resource){
-    console.log("working in service");
-    return $resource('api/createEvent');
-});
+         return $resource('api/createEvent');
+    }).factory('SaveEventService', function($resource){
+         return $resource('api/saveEvent',
+             {
+                 'update' : {
+                     url: "api/saveEvent",
+                     method :"PUT"
+                 }
+             });
+    });

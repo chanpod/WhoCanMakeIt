@@ -8,38 +8,54 @@ script#viewEvent(type="text/ng-template")
                 div(class = "modal-dialog")
                     div(class = "modal-content")
                         div(class = "modal-header")
+                            button(type="button", class="close", data-dismiss="modal")
+                                span(aria-hidden="true") &times
+                                span(class = "sr-only") Close
                             | Who are you?
-                            br
-                            input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
-                        div(class = "btn-group")
-                            button(type = "button", class = "btn btn-default") ImIn
-                            button(type = "button", class = "btn btn-default") Maybe
-                            button(type = "button", class = "btn btn-default") Nope
+                        div(class = "modal-body")
+                            div(class = "modal-body")
+
+                                input(type = "input", ng-model = "newAttendee", placeholder="Enter your name")
+                            div(class = "btn-group")
+                                button(type = "button", class = "btn btn-default", ng-click = "ImIn()") ImIn
+                                button(type = "button", class = "btn btn-default", ng-click = "maybe()") Maybe
+                                button(type = "button", class = "btn btn-default", ng-click = "nope()") Nope
+                        div(class = "modal-footer")
+                            button(type = "button", class = "btn btn-primary", data-dismiss="modal", ng-click = "addAttendee()") ImIn
+                            button(type = "butotn", class = "btn btn-warning", data-dismiss="modal") Nevermind
     div(class = "well")
         div.row
             div.container-fluid
-                div(class = "col-md-4 col-sm-6")
+                div(class = "col-md-3 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")
                             | Event Name
                         div(class = "panel-body")
                             {{event.eventName}}
-                div(class = "col-md-4 col-sm-6")
+                div(class = "col-md-3 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")
                             | Event Date
                         div(class = "panel-body")
                             {{event.eventDate}}
-                div(class = "col-md-4 col-sm-6")
+                div(class = "col-md-3 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")
                             | Event Time
                         div(class = "panel-body")
                             {{event.eventTime}}
-                div(class = "col-md-4 col-sm-6")
+                div(class = "col-md-3 col-sm-6")
                     div(class = "panel panel-info")
                         div(class = "panel-heading")
-                            | Who's Coming
+                            | Overview
+                        div(class = "panel-body")
+                            span(class = "label label-info") {{event.attendees.length}}
+                            span(class = "label label-warning") {{event.maybe.length}}
+                            span(class = "label label-danger") {{event.nopes.length}}
+                div(class = "col-md-12 col-sm-12")
+                    div(class = "panel panel-info")
+                        div(class = "panel-heading")
+                            | Who's Coming?
                         div(class = "panel-body")
                             input(ng-model = "searchAttendees")
                             table(class = "table table-stripped")

@@ -22,6 +22,8 @@ script#viewAllEvents(type="text/ng-template")
 
                 td()
                     span(class = "label label-info") {{event.attendees.length}}
+                    span(class = "label label-warning") {{event.maybe.length}}
+                    span(class = "label label-danger") {{event.nopes.length}}
                 td()
                     {{event.eventDate}}
                 td()
