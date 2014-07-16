@@ -13,7 +13,7 @@ var express = require('express'),
   path = require('path');
 
 var app = express();
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 4000;
 
 /**
  * Configuration
@@ -40,6 +40,7 @@ router.get('/', routes.index);
 router.get('/viewEvent', routes.index);
 router.get('/viewEvent/:eventID', routes.index);
 router.get('/createEvent', routes.index);
+router.get('/gMaps', routes.index);
 
 app.use('/', router);
 

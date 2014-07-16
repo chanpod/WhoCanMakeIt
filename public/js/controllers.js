@@ -35,6 +35,97 @@ angular.module("Imn.controllers", ['Imn.services'])
         }
 
     }])
+    .controller("gMapsController", ["$scope", '$location', function($scope, $location){
+        $scope.welcomeMessage = "Welcome to Google Maps Playground"
+
+        $scope.map = {
+            center: {
+                latitude: 44.41748017333282,
+                longitude: 26.106005249023376
+            },
+            zoom: 12
+        }
+        $scope.id = 0;
+        $scope.map.bounds = {};
+        $scope.map.randomMarkers = [{
+            id: 0,
+            latitude: 44.42138408826953,
+            longitude: 26.25385948707207,
+            showWindow: false,
+            title: "m9",
+            draggable: true
+        },
+            {
+            id: 1,
+            latitude: 44.39138408826953,
+            longitude: 26.21385948707207,
+            showWindow: false,
+            title: "m9",
+            draggable: true
+        }];
+
+        $scope.id++;
+        $scope.id++;
+
+        angular.forEach($scope.map.randomMarkers, function(marker) {
+            marker.showWindow = false;
+
+            marker.onClick = function() {
+                console.log('on click - opening window');
+                marker.showWindow = true;
+                $scope.$apply();
+            }
+
+            marker.closeClick = function() {
+                console.log('close click - hiding window');
+                marker.showWindow = false;
+                $scope.$apply();
+            }
+
+            console.log(marker);
+
+        });
+
+
+        var generateMarkers = function(markers) {
+
+
+            markers.showWindow = false;
+
+            markers.onClick = function() {
+                    console.log('on click - opening window');
+                    markers.showWindow = true;
+                    $scope.$apply();
+                };
+
+            markers.closeClick = function() {
+                    console.log('close click - hiding window');
+                    marker.showWindow = false;
+                    $scope.$apply();
+                };
+
+                console.log(markers);
+
+
+            $scope.map.randomMarkers.push(markers);
+
+        };
+
+        $scope.generateMarker = function(){
+            var marker = {
+                id: $scope.id,
+                latitude: 44.41138408826953,
+                longitude: 26.23385948707207,
+                showWindow: false,
+                title: "m9",
+                draggable: true
+            };
+            console.log("marker added");
+            generateMarkers(marker);
+            $scope.id = $scope.id++;
+        };
+
+    }])
     .controller("viewAllEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
 
         var path = $location.path().split('/');

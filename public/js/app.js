@@ -6,7 +6,8 @@ angular.module('Imn', [
   'Imn.controllers',
   'Imn.filters',
   'Imn.services',
-  'Imn.directives'
+  'Imn.directives',
+  'google-maps'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
@@ -25,6 +26,10 @@ config(function ($routeProvider, $locationProvider) {
       when('/viewEvent', {
           templateUrl: 'viewAllEvents',
           controller: 'viewAllEventsController'
+      }).
+      when('/gMaps', {
+          templateUrl: 'gMaps',
+          controller: 'gMapsController'
       }).
     otherwise({
       redirectTo: '/'

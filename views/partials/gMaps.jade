@@ -1,0 +1,10 @@
+script#gMaps(type="text/ng-template")
+    div.container
+        button(type = "button", ng-click="generateMarker()") Add a Marker
+        div.row()
+            div(class = "col-md-6")
+                google-map(center="map.center", zoom="map.zoom", draggable="true", bounds="map.bounds", control="map.control")
+                    markers(models="map.randomMarkers", coords="'self'", icon="'icon'", click="'onClick'")
+                        windows(show="'showWindow'", closeClick="'closeClick'", ng-cloak)
+                            div
+                                | Window with additional information
