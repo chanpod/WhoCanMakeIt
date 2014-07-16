@@ -52,7 +52,7 @@ angular.module("Imn.controllers", ['Imn.services'])
             latitude: 44.42138408826953,
             longitude: 26.25385948707207,
             showWindow: false,
-            title: "m9",
+            title: "m8",
             draggable: true
         },
             {
@@ -64,6 +64,7 @@ angular.module("Imn.controllers", ['Imn.services'])
             draggable: true
         }];
 
+        $scope.id++;
         $scope.id++;
         $scope.id++;
 
@@ -122,7 +123,7 @@ angular.module("Imn.controllers", ['Imn.services'])
             };
             console.log("marker added");
             generateMarkers(marker);
-            $scope.id = $scope.id++;
+            $scope.id++;
         };
 
     }])
