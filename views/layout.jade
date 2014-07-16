@@ -3,6 +3,7 @@ html(ng-app="Imn")
     head
 
     meta(charset='utf8')
+    meta(name="viewport", content="initial-scale=1.0,, user-scalable=no")
     base(href='/')
     title WhoCanMakeIt
     link(rel='stylesheet', href='/css/app.css')
@@ -10,6 +11,7 @@ html(ng-app="Imn")
     body
         script(src='js/lib/angular/angular.js')
         script(src='js/lib/angular/angular-resource.js')
+        script(src='js/lib/angular/angular-route.js')
         script(src='js/lib/jquery-2.1.1.js')
         script(src='js/lib/bootstrap-3.2.0/js/bootstrap.js')
         script(src='js/services.js')
@@ -17,9 +19,8 @@ html(ng-app="Imn")
         script(src='js/filters.js')
         script(src='js/directives.js')
         script(src='js/app.js')
-        <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
-        script(src="js/lib/underscoreJS.js")
-        script(src="js/lib/angular-maps.js")
+
+        script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places')
 
 
         block body

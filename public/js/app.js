@@ -7,7 +7,7 @@ angular.module('Imn', [
   'Imn.filters',
   'Imn.services',
   'Imn.directives',
-  'google-maps'
+  'ngRoute'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.

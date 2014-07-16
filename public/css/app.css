@@ -6,3 +6,11 @@ body {
 }
 
 .angular-google-map-container { height: 400px; }
+
+
+#map-canvas {
+    height: 400px;
+    width:100%;
+
+}
+

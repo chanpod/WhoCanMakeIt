@@ -36,95 +36,85 @@ angular.module("Imn.controllers", ['Imn.services'])
 
     }])
     .controller("gMapsController", ["$scope", '$location', function($scope, $location){
-        $scope.welcomeMessage = "Welcome to Google Maps Playground"
+        $scope.welcomeMessage = "Welcome to Google Maps Playground";
 
-        $scope.map = {
-            center: {
-                latitude: 44.41748017333282,
-                longitude: 26.106005249023376
-            },
-            zoom: 11
-        }
-        $scope.id = 0;
-        $scope.map.bounds = {};
-        $scope.map.randomMarkers = [{
-            id: 0,
-            latitude: 44.42138408826953,
-            longitude: 26.25385948707207,
-            showWindow: false,
-            title: "m8",
-            draggable: true
-        },
-            {
-            id: 1,
-            latitude: 44.39138408826953,
-            longitude: 26.21385948707207,
-            showWindow: false,
-            title: "m9",
-            draggable: true
-        }];
-
-        $scope.id++;
-        $scope.id++;
-        $scope.id++;
-
-        angular.forEach($scope.map.randomMarkers, function(marker) {
-            marker.showWindow = false;
-
-            marker.onClick = function() {
-                console.log('on click - opening window');
-                marker.showWindow = true;
-                $scope.$apply();
-            }
-
-            marker.closeClick = function() {
-                console.log('close click - hiding window');
-                marker.showWindow = false;
-                $scope.$apply();
-            }
-
-            console.log(marker);
-
-        });
-
-
-        var generateMarkers = function(markers) {
-
-
-            markers.showWindow = false;
-
-            markers.onClick = function() {
-                    console.log('on click - opening window');
-                    markers.showWindow = true;
-                    $scope.$apply();
-                };
-
-            markers.closeClick = function() {
-                    console.log('close click - hiding window');
-                    marker.showWindow = false;
-                    $scope.$apply();
-                };
-
-                console.log(markers);
-
-
-            $scope.map.randomMarkers.push(markers);
-
-        };
-
-        $scope.generateMarker = function(){
-            var marker = {
-                id: $scope.id,
-                latitude: 44.41138408826953,
-                longitude: 26.23385948707207,
-                showWindow: false,
-                title: "m9",
-                draggable: true
+        function initialize() {
+            var mapOptions = {
+                center: new google.maps.LatLng(-33.8688, 151.2195),
+                zoom: 13
             };
-            console.log("marker added");
-            generateMarkers(marker);
-            $scope.id++;
-        };
+            var map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+
+            var input = /** @type {HTMLInputElement} */(
+                document.getElementById('pac-input'));
+
+            var types = document.getElementById('type-selector');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.bindTo('bounds', map);
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker = new google.maps.Marker({
+                map: map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            google.maps.event.addListener(autocomplete, 'place_changed', function() {
+                infowindow.close();
+                marker.setVisible(false);
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    return;
+                }
+
+                // If the place has a geometry, then present it on a map.
+                if (place.geometry.viewport) {
+                    map.fitBounds(place.geometry.viewport);
+                } else {
+                    map.setCenter(place.geometry.location);
+                    map.setZoom(17);  // Why 17? Because it looks good.
+                }
+                marker.setIcon(/** @type {google.maps.Icon} */({
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(35, 35)
+                }));
+                marker.setPosition(place.geometry.location);
+                marker.setVisible(true);
+
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''),
+                        (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                    ].join(' ');
+                }
+
+                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+                infowindow.open(map, marker);
+            });
+
+            // Sets a listener on a radio button to change the filter type on Places
+            // Autocomplete.
+            function setupClickListener(id, types) {
+                var radioButton = document.getElementById(id);
+                google.maps.event.addDomListener(radioButton, 'click', function() {
+                    autocomplete.setTypes(types);
+                });
+            }
+
+            setupClickListener('changetype-all', []);
+            setupClickListener('changetype-establishment', ['establishment']);
+            setupClickListener('changetype-geocode', ['geocode']);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
 
     }])
     .controller("viewAllEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
@@ -141,12 +131,13 @@ angular.module("Imn.controllers", ['Imn.services'])
             $scope.events = EventService.query();
         }
 
-    }]).controller("viewEventController", ["$scope", 'EventService', '$location', 'SaveEventService', function($scope, EventService, $location, SaveEventService){
+    }]).controller("viewEventController", ["$scope", 'EventService', '$location', 'SaveEventService', '$timeout', function($scope, EventService, $location, SaveEventService, $timeout){
 
         var path = $location.path().split('/');
         var pathSize = path.length;
         $scope.event = {};
         $scope.iminResponse = true;
+        $scope.isVisible = false;
 
         $scope.addedToYes = false;
         $scope.addedToMaybe = false;
@@ -157,9 +148,67 @@ angular.module("Imn.controllers", ['Imn.services'])
         $('addAttendee').prop('disabled', true);
 
 
+        var map;
+        function initialize() {
+            var mapOptions = {
+                zoom: 8,
+                center: new google.maps.LatLng(-34.397, 150.644)
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+        }
+
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
         var eventService = EventService.getSingleEvent({"eventID":path[pathSize - 1]}, function(result){
             $scope.updateEvent();
         });
+
+
+
+        $scope.getLatLong = function(address){
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    //In this case it creates a marker, but you can get the lat and lng from the location.LatLng
+                    map.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: results[0].geometry.location
+                    });
+                    map.setZoom(13)
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+
+        };
+
+        $scope.reloadMaps = function(){
+            initialize();
+            $scope.getLatLong($scope.event.eventLocation);
+        };
+
+        $scope.showMap = function(){
+
+            $scope.isVisible = !$scope.isVisible;
+            console.log($scope.isVisible);
+
+            if($scope.isVisible) {
+                $timeout(function () {
+                    $scope.reloadMaps();
+                }, 200)
+            }
+
+        };
+
+        $scope.refreshMap = function(){
+            google.maps.event.trigger(map,'resize')
+        }
 
 
         $scope.updateEvent = function(){
@@ -176,6 +225,8 @@ angular.module("Imn.controllers", ['Imn.services'])
 
 
             $scope.welcomeMessage = $scope.event.eventName;
+
+
         };
 
         $scope.addAttendee = function(){
