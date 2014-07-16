@@ -43,7 +43,7 @@ angular.module("Imn.controllers", ['Imn.services'])
                 latitude: 44.41748017333282,
                 longitude: 26.106005249023376
             },
-            zoom: 12
+            zoom: 11
         }
         $scope.id = 0;
         $scope.map.bounds = {};
