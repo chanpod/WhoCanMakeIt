@@ -94,6 +94,9 @@ angular.module("Imn.controllers", ['Imn.services'])
         $scope.iminResponse = true;
         $scope.isVisible = false;
 
+        $scope.editable = false;
+        $scope.editButton = "Edit";
+
         $scope.addedToYes = false;
         $scope.addedToMaybe = false;
         $scope.addedToNopes = false;
@@ -106,6 +109,34 @@ angular.module("Imn.controllers", ['Imn.services'])
             content: 'No valid location could be found. Update the location if you wish to see it in Google Maps.',
             trigger: 'manual'
         })
+
+        $scope.editFields = function(){
+            $scope.editable = !$scope.editable
+            if($scope.editable){
+                $scope.editButton = "Save";
+            }
+            else{
+                $scope.editButton = "Edit";
+                $scope.saveEvent();
+            }
+        };
+
+        $scope.tabs = [
+            {
+                "title":"ImIn",
+                "template" : "TabJadeFiles/ImInTab.jade"
+            },
+            {
+                "title": "Maybe",
+                "template" : "TabJadeFiles/MaybeTab.jade"
+            },
+            {
+                "title": "Not Coming",
+                "template" : "TabJadeFiles/NotComingTab.jade"
+            }
+        ];
+
+        $scope.tabs.active = 0;
 
 
         var map;
@@ -200,9 +231,7 @@ angular.module("Imn.controllers", ['Imn.services'])
                                                 $scope.addedToMaybe === true ||
                                                 $scope.addedToNopes=== true)){
 
-               var saveEvent = new SaveEventService();
-               console.log(saveEvent);
-               SaveEventService.update({eventID: $scope.event._id}, {data: $scope.event});
+               $scope.saveEvent();
                $('#ImInQuestionair').modal('hide');
                $('#enterName').popover('hide');
            }
@@ -211,6 +240,12 @@ angular.module("Imn.controllers", ['Imn.services'])
            }
 
         };
+
+        $scope.saveEvent = function(){
+            var saveEvent = new SaveEventService();
+            console.log(saveEvent);
+            SaveEventService.update({eventID: $scope.event._id}, {data: $scope.event});
+        }
 
         $scope.ImIn = function(){
 
