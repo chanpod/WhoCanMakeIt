@@ -6,26 +6,29 @@ angular.module("Imn.controllers", ['Imn.services'])
 
         $scope.trim = function(stringToTrim){
             return stringToTrim.replace(/^\s+|\s+$/gm,'');
-        }
+        };
+
+        $('#eventName').popover({
+            content: 'Name cannot be empty or contain only spaces.',
+            trigger: 'manual'
+        })
 
         $scope.validate = function(){
             try {
+                $scope.trim($scope.event.eventName);
                 if ($scope.event.eventName || $scope.event.eventName.length > 0) {
+                    $('#eventName').popover("hide");
                     return true;
                 }
                 else {
-                    console.log($scope.event.eventDate);
+                    $('#eventName').popover("show");
                     return false;
                 }
             }
             catch(err){
-                console.log(($scope.event.eventDate.getMonth() + 1) + "/" +
-                            $scope.event.eventDate.getDate() + "/" +
-                            $scope.event.eventDate.getFullYear());
-                console.log($scope.event.eventDate.toLocaleTimeString())
+                $('#eventName').popover("show");
                 return false;
             }
-
         };
 
         $scope.submitEvent = function(){

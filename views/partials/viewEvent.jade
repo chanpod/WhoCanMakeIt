@@ -58,7 +58,7 @@ script#viewEvent(type="text/ng-template")
                                 | Location: &nbsp
                             {{event.eventLocation}}
                         p
-                            span(id = "showMap", ng-click = "showMap()")
+                            span(data-placement="bottom",id = "showMap", ng-click = "showMap()")
                                 | View on Google Maps
                                 i(class = "glyphicon glyphicon-map-marker")
                             button(ng-click = "reloadMaps()", class = "btn btn-default") Reload Maps
