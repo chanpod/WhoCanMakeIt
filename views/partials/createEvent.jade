@@ -13,10 +13,10 @@ script#createEvent(type="text/ng-template")
                     input(type = "text", class = "form-control text", id = "eventName", ng-model = "event.eventName", placeholder ="Enter the name of the event", required)
                 div(class = "form-group")
                     label(for ="date") Date - <i>Click down arrow for date selection </i>
-                    input(type = "date", class = "form-control", id = "date", ng-model = "event.eventDate")
+                    input(bs-datepicker, class = "form-control", id = "date", ng-model = "event.eventDate")
                 div(class = "form-group")
                     label(for = "time") Time
-                    input(type = "time", class = "form-control", id = "time", ng-model = "event.eventTime")
+                    input(bs-timepicker, class = "form-control", id = "time", ng-model = "event.eventDate")
                 div(class = "form-group")
                     label(for = "location") Location
                     input(type = "text", class = "form-control", id = "location", ng-model="event.eventLocation")

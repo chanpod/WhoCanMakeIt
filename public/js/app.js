@@ -7,7 +7,9 @@ angular.module('Imn', [
   'Imn.filters',
   'Imn.services',
   'Imn.directives',
-  'ngRoute'
+  'ngRoute',
+  'ngAnimate',
+  'mgcrea.ngStrap'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.

@@ -42,11 +42,11 @@ script#viewEvent(type="text/ng-template")
                         p
                             b
                                 | Date: &nbsp
-                            {{event.eventDate}}
+                            {{event.eventDate.toLocaleDateString()}}
                         p
                             b
                                 | Time: &nbsp
-                            {{event.eventTime}}
+                            {{event.eventDate.toLocaleTimeString()}}
                         p
                             b
                                 | Overview: &nbsp
@@ -58,7 +58,7 @@ script#viewEvent(type="text/ng-template")
                                 | Location: &nbsp
                             {{event.eventLocation}}
                         p
-                            span(ng-click = "showMap()")
+                            span(id = "showMap", ng-click = "showMap()")
                                 | View on Google Maps
                                 i(class = "glyphicon glyphicon-map-marker")
                             button(ng-click = "reloadMaps()", class = "btn btn-default") Reload Maps
