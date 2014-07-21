@@ -88,46 +88,43 @@ script#viewEvent(type="text/ng-template")
 
     div.row
         div.container
-            div(ng-model = "tabs.active", bs-tabs="tabs")
-            //
-
-                div(class = "col-md-4 col-sm-6")
-                    div(class = "panel panel-info")
-                        div(class = "panel-heading")
-                            | Who's Coming?
-                        div(class = "panel-body")
-                            input(ng-model = "searchAttendees")
-                            table(class = "table table-stripped")
-                                tr
-                                    th()
-                                        | Name
-                                tr(ng-repeat="attendee in event.attendees | filter:searchAttendees")
-                                    td
-                                        {{attendee.userName}}
-                div(class = "col-md-4 col-sm-6")
-                    div(class = "panel panel-warning")
-                        div(class = "panel-heading")
-                            | Who Might Be Coming?
-                        div(class = "panel-body")
-                            input(ng-model = "searchMaybe")
-                            table(class = "table table-stripped")
-                                tr
-                                    th()
-                                        | Name
-                                tr(ng-repeat="attendee in event.maybe | filter:searchMaybe")
-                                    td
-                                        {{attendee.userName}}
-                div(class = "col-md-4 col-sm-6")
-                    div(class = "panel panel-danger")
-                        div(class = "panel-heading")
-                            | Who's Not Coming
-                        div(class = "panel-body")
-                            input(ng-model = "searchNopes")
-                            table(class = "table table-stripped")
-                                tr
-                                    th()
-                                        | Name
-                                tr(ng-repeat="attendee in event.nopes | filter:searchNopes")
-                                    td
-                                        {{attendee.userName}}
+            div(class = "col-md-4 col-sm-6")
+                div(class = "panel panel-info")
+                    div(class = "panel-heading")
+                        | Who's Coming?
+                    div(class = "panel-body")
+                        input(ng-model = "searchAttendees")
+                        table(class = "table table-stripped")
+                            tr
+                                th()
+                                    | Name
+                            tr(ng-repeat="attendee in event.attendees | filter:searchAttendees")
+                                td
+                                    {{attendee.userName}}
+            div(class = "col-md-4 col-sm-6")
+                div(class = "panel panel-warning")
+                    div(class = "panel-heading")
+                        | Who Might Be Coming?
+                    div(class = "panel-body")
+                        input(ng-model = "searchMaybe")
+                        table(class = "table table-stripped")
+                            tr
+                                th()
+                                    | Name
+                            tr(ng-repeat="attendee in event.maybe | filter:searchMaybe")
+                                td
+                                    {{attendee.userName}}
+            div(class = "col-md-4 col-sm-6")
+                div(class = "panel panel-danger")
+                    div(class = "panel-heading")
+                        | Who's Not Coming
+                    div(class = "panel-body")
+                        input(ng-model = "searchNopes")
+                        table(class = "table table-stripped")
+                            tr
+                                th()
+                                    | Name
+                            tr(ng-repeat="attendee in event.nopes | filter:searchNopes")
+                                td
+                                    {{attendee.userName}}
 
