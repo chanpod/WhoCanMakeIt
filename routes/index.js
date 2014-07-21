@@ -13,7 +13,7 @@ exports.sendMail = function(req, res){
         from:req.body.from,
         to: req.body.to,
         subject: req.body.subject,
-        text: "Thank you for using WhoCanMakeIt. Simply share the url provided to allow friends to participate. URL: http://localhost:4000/viewEvent/" + req.body.text._id
+        text: "Thank you for using WhoCanMakeIt. Simply share the url provided to allow friends to participate. URL: http://http://54.86.71.90:4000/viewEvent/" + req.body.text._id
     })
 
 
