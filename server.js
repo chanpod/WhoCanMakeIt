@@ -36,11 +36,13 @@ router.get('/api/viewEvent', routes.viewEvent);
 router.get('/api/viewEvent/:eventID', routes.viewEvent);
 router.post('/api/createEvent', routes.createEvent);
 router.put('/api/saveEvent/:eventID', routes.saveEvent);
+router.post('/api/sendMail', routes.sendMail);
 router.get('/', routes.index);
 router.get('/viewEvent', routes.index);
 router.get('/viewEvent/:eventID', routes.index);
 router.get('/createEvent', routes.index);
 router.get('/gMaps', routes.index);
+
 
 app.use('/', router);
 

@@ -2,6 +2,24 @@ var mongoose = require('mongoose');
 var db = mongoose.createConnection('localhost', 'eventApp');
 var eventSchema = require('../models/createEvent.js').eventSchema;
 var event = db.model('events', eventSchema);
+var nodemailer = require('nodemailer');
+
+
+exports.sendMail = function(req, res){
+    console.log('sending mail...');
+    var transporter = nodemailer.createTransport();
+
+    transporter.sendMail({
+        from:req.body.from,
+        to: req.body.to,
+        subject: req.body.subject,
+        text: "Thank you for using WhoCanMakeIt. Simply share the url provided to allow friends to participate. URL: http://localhost:4000/viewEvent/" + req.body.text._id
+    })
+
+
+    console.log();
+
+};
 
 
 exports.viewEvent = function(req, res){
@@ -45,18 +63,6 @@ exports.createEvent = function(req, res){
     console.log(req.params.newEvent);
     console.log("Request Body: " + reqBody);
     console.log(reqBody);
-
-    var testEvent = {
-        eventID: "1",
-        eventName: "Test",
-        eventDate: "12/12/12",
-        eventTime : "1:00pm",
-        eventLocation: "Auburn",
-        attendees: [{
-            userName: "Chauncey",
-            attending: "yes"
-        }]
-    };
 
 
     var newEvent = new event(reqBody);

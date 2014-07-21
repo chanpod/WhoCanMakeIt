@@ -1,8 +1,10 @@
 'use Strict'
 angular.module("Imn.controllers", ['Imn.services'])
-    .controller("createEventController", ["$scope", 'CreateEventService', '$location', function($scope, CreateEventService, $location){
+    .controller("createEventController", ["$scope", 'CreateEventService', '$location', 'SendMail', function($scope, CreateEventService, $location, SendMail){
         $scope.event = {};
         $scope.date = {};
+        $scope.event.emailAddress = "";
+        $scope.event.emailAddressCheck = "";
 
         $scope.trim = function(stringToTrim){
             return stringToTrim.replace(/^\s+|\s+$/gm,'');
@@ -13,34 +15,73 @@ angular.module("Imn.controllers", ['Imn.services'])
             trigger: 'manual'
         })
 
+        $('#emailCheck').popover({
+            content: 'Emails do not match. Please verify you have enter your email correclty.',
+            trigger: 'manual'
+        })
+
         $scope.validate = function(){
+
+            var isValid = false;
             try {
                 $scope.trim($scope.event.eventName);
                 if ($scope.event.eventName || $scope.event.eventName.length > 0) {
                     $('#eventName').popover("hide");
-                    return true;
+                    isValid = true;
                 }
                 else {
                     $('#eventName').popover("show");
-                    return false;
+                    isValid = false;
+                }
+
+                $scope.trim($scope.event.emailAddress);
+                $scope.trim($scope.event.emailAddressCheck);
+
+                if($scope.event.emailAddress === $scope.event.emailAddressCheck && $scope.event.emailAddress.length > 0){
+                    isValid = true;
+                }
+                else{
+                    if($scope.event.emailAddress.length > 0){
+                        $('#emailCheck').popover('show');
+                    }
+
+                    isValid = false;
                 }
             }
             catch(err){
-                $('#eventName').popover("show");
+                console.log(err);
+
                 return false;
             }
+
+            return isValid;
         };
 
         $scope.submitEvent = function(){
             if($scope.validate()) {
-                console.log($scope.event);
-                $scope.event.eventDate
+
                 var events = new CreateEventService($scope.event);
 
-                console.log(events);
 
                 events.$save(function (response) {
                     console.log(response);
+                    if($scope.event.emailAddress.length > 0){
+
+                        var email = {
+                            to : $scope.event.emailAddress,
+                            from: "chanpod36@gmail.com",
+                            subject: "Even Creation From WhoCanMakeIt",
+                            text: response
+                        }
+
+                        var sendEmail = new SendMail(email);
+
+                        sendEmail.$save(function(response){
+                           console.log("The response: " + response);
+                        });
+                    }
+
+
                     $location.path("/viewEvent/" + response._id)
                 });
             };
@@ -55,7 +96,7 @@ angular.module("Imn.controllers", ['Imn.services'])
         }
 
     }])
-    .controller("viewAllEventsController", ["$scope", 'EventService', '$location', function($scope, EventService, $location){
+    .controller("viewAllEventsController", ["$scope", 'EventService', '$location', 'SendMail', function($scope, EventService, $location, SendMail){
 
         var path = $location.path().split('/');
         var pathSize = path.length;
@@ -83,7 +124,7 @@ angular.module("Imn.controllers", ['Imn.services'])
             });
         }
 
-
+        SendMail.query();
 
 
     }]).controller("viewEventController", ["$scope", 'EventService', '$location', 'SaveEventService', '$timeout', function($scope, EventService, $location, SaveEventService, $timeout){

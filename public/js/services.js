@@ -25,4 +25,15 @@ service.factory('EventService', function($resource){
                      method :"PUT"
                  }
              });
-    });
+    }).factory('SendMail', function($resource){
+        return $resource('api/sendMail/',
+                {},
+                {
+                    'sendEmail': {
+                        url: "api/sendMail/",
+                        method: "POST"
+
+                    }
+                }
+            );
+});
