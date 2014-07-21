@@ -108,6 +108,11 @@ angular.module("Imn.controllers", ['Imn.services'])
         $('#showMap').popover({
             content: 'No valid location could be found. Update the location if you wish to see it in Google Maps.',
             trigger: 'manual'
+        });
+
+        $('#enterName').popover({
+            content: "Please enter your name. Can't be blank!",
+            trigger: 'manual'
         })
 
         $scope.editFields = function(){
@@ -121,22 +126,39 @@ angular.module("Imn.controllers", ['Imn.services'])
             }
         };
 
-        $scope.tabs = [
-            {
-                "title":"ImIn",
-                "template" : "TabJadeFiles/ImInTab.jade"
-            },
-            {
-                "title": "Maybe",
-                "template" : "TabJadeFiles/MaybeTab.jade"
-            },
-            {
-                "title": "Not Coming",
-                "template" : "TabJadeFiles/NotComingTab.jade"
+        $scope.checkNewAttendee = function(){
+            if($scope.validate($scope.newAttendee)){
+                $('#enterName').popover('hide');
             }
-        ];
+            else{
+                $('#enterName').popover('show');
+            }
+        }
 
-        $scope.tabs.active = 0;
+
+        $scope.validate = function(stringToValidate){
+            try {
+                $scope.trim(stringToValidate);
+
+                if (stringToValidate || stringToValidate.length > 0) {
+
+                    return true;
+                }
+                else {
+
+                    return false;
+                }
+            }
+            catch(err){
+
+                return false;
+            }
+        };
+
+        $scope.trim = function(stringToTrim){
+            return stringToTrim.replace(/^\s+|\s+$/gm,'');
+        };
+
 
 
         var map;
@@ -150,14 +172,12 @@ angular.module("Imn.controllers", ['Imn.services'])
         }
 
 
-        google.maps.event.addDomListener(window, 'load', initialize);
-
+        //google.maps.event.addDomListener(window, 'load', initialize);
 
 
         var eventService = EventService.getSingleEvent({"eventID":path[pathSize - 1]}, function(result){
             $scope.updateEvent();
         });
-
 
 
         $scope.getLatLong = function(address){
@@ -227,10 +247,9 @@ angular.module("Imn.controllers", ['Imn.services'])
 
         $scope.addAttendee = function(){
 
-           if($scope.newAttendee.length > 0 && ($scope.addedToYes === true ||
-                                                $scope.addedToMaybe === true ||
-                                                $scope.addedToNopes=== true)){
+           if($scope.validate($scope.newAttendee)){
 
+               $scope.event.attendees.push($scope.newAttendeeToAdd);
                $scope.saveEvent();
                $('#ImInQuestionair').modal('hide');
                $('#enterName').popover('hide');
@@ -238,40 +257,22 @@ angular.module("Imn.controllers", ['Imn.services'])
            else{
                $('#enterName').popover('show');
            }
-
         };
 
         $scope.saveEvent = function(){
+
             var saveEvent = new SaveEventService();
             console.log(saveEvent);
             SaveEventService.update({eventID: $scope.event._id}, {data: $scope.event});
         }
 
-        $scope.ImIn = function(){
+        $scope.ImIn = function(response){
 
             $scope.newAttendeeToAdd.userName = $scope.newAttendee;
 
-            if($scope.newAttendee.length > 0) {
+            if($scope.validate($scope.newAttendee)) {
 
-                if ($scope.addedToYes === true) {
-
-                }
-                else {
-                    if ($scope.addedToMaybe === true) {
-
-                        $scope.addedToMaybe = false
-                        $scope.event.maybe.pop();
-                    }
-                    else if ($scope.addedToNopes === true) {
-
-                        $scope.addedToNopes = false
-                        $scope.event.nopes.pop();
-                    }
-
-                    $scope.event.attendees.push($scope.newAttendeeToAdd)
-                }
-
-                $scope.addedToYes = true;
+                $scope.newAttendeeToAdd.response = response;
 
                 console.log("Attendees" + $scope.event.attendees);
             }
@@ -281,85 +282,11 @@ angular.module("Imn.controllers", ['Imn.services'])
 
         };
 
-        $scope.maybe = function(){
 
-            $scope.newAttendeeToAdd.userName = $scope.newAttendee;
-
-            if($scope.newAttendee.length > 0) {
-
-                if($scope.addedToMaybe === true){
-
-                }
-                else{
-                    if($scope.addedToYes === true){
-
-                        $scope.addedToYes = false
-                        $scope.event.attendees.pop();
-                    }
-                    else if($scope.addedToNopes === true){
-
-                        $scope.addedToNopes = false
-                        $scope.event.nopes.pop();
-                    }
-
-                    $scope.event.maybe.push($scope.newAttendeeToAdd)
-                }
-
-                $scope.addedToMaybe = true;
-            }
-            else{
-                $('#enterName').popover('show');
-            }
-        }
-
-        $scope.nopes = function(){
-
-            $scope.newAttendeeToAdd.userName = $scope.newAttendee;
-
-            if($scope.newAttendee.length > 0) {
-
-                if ($scope.addedToNopes === true) {
-                    //Do nothing
-                }
-                else {
-                    if ($scope.addedToYes === true) {
-
-                        $scope.addedToYes = false;
-                        $scope.event.attendees.pop();
-                    }
-                    else if ($scope.addedToMaybe === true) {
-
-                        $scope.addedToMaybe = false
-                        $scope.event.maybe.pop();
-                    }
-
-                    $scope.event.nopes.push($scope.newAttendeeToAdd)
-                }
-
-                $scope.addedToNopes = true;
-            }
-            else{
-                $('#enterName').popover('show');
-            }
-        }
 
         $scope.nevermind = function(){
 
-            if($scope.addedToYes === true){
-
-                $scope.addedToYes = false;
-                $scope.event.attendees.pop();
-            }
-            else if($scope.addedToMaybe === true){
-
-                $scope.addedToMaybe = false
-                $scope.event.maybe.pop();
-            }
-            else if($scope.addedToNopes === true){
-
-                $scope.addedToNopes = false
-                $scope.event.nopes.pop();
-            }
+            //$scope.event.attendees.pop();
         }
 
     }]);

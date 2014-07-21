@@ -16,13 +16,13 @@ script#viewEvent(type="text/ng-template")
                             div(class = "modal-body")
                                 div.container
                                     | Who are you? &nbsp
-                                    input(id = "enterName", type = "input", ng-model = "newAttendee", placeholder="Enter your name", data-toggle = "popover", data-content = "Please enter your name. Can't be blank!")
+                                    input(ng-change = "checkNewAttendee()", id = "enterName", type = "input", ng-model = "newAttendee", placeholder="Enter your name")
                                 br
                                 div.container
                                     div(class = "btn-group")
-                                        button(type = "button", class = "btn btn-primary", ng-click = "ImIn()") ImIn
-                                        button(type = "button", class = "btn btn-warning", ng-click = "maybe()") Maybe
-                                        button(type = "button", class = "btn btn-danger", ng-click = "nopes()") Nope
+                                        button(type = "button", class = "btn btn-primary", ng-click = "ImIn(1)") ImIn
+                                        button(type = "button", class = "btn btn-warning", ng-click = "ImIn(2)") Maybe
+                                        button(type = "button", class = "btn btn-danger", ng-click = "ImIn(3)") Nope
                         div(class = "modal-footer")
                             button(id = "addAttendee", type = "button", class = "btn btn-primary", ng-click = "addAttendee()") Save
                             button(type = "button", class = "btn btn-warning", data-dismiss="modal", ng-click = "nevermind()") Nevermind
@@ -88,7 +88,15 @@ script#viewEvent(type="text/ng-template")
 
     div.row
         div.container
-            div(ng-model = "tabs.active", bs-tabs="tabs")
+            div(class = "col-md-12 col-sm-12")
+                input(ng-model = "searchAttendees", placeholder = "Search Who's Responded")
+                table(class = "table-stripped")
+                    tr()
+                        th()
+                            | Name
+                    tr(ng-repeat="attendee in event.attendees | filter:searchAttendees")
+                        td
+                            {{attendee.userName}}
             //
 
                 div(class = "col-md-4 col-sm-6")
