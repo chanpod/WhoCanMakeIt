@@ -7,7 +7,7 @@ angular.module("Imn.controllers", ['Imn.services'])
         $scope.trim = function(stringToTrim){
             return stringToTrim.replace(/^\s+|\s+$/gm,'');
         };
-
+        //testing slack
         $('#eventName').popover({
             content: 'Name cannot be empty or contain only spaces.',
             trigger: 'manual'
